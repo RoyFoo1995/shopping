@@ -5,6 +5,8 @@ import com.thoughtworks.shopping.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ProductService {
@@ -28,5 +30,13 @@ public class ProductService {
         return productRepository.existsById(id)?
                 productRepository.save(product):
                 null;
+    }
+
+    public List<Product> getAll() {
+        return productRepository.findAll();
+    }
+
+    public Product get(Long id) {
+        return productRepository.findById(id).orElse(null);
     }
 }

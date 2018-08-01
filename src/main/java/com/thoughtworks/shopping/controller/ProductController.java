@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -34,5 +35,19 @@ public class ProductController {
     public ResponseEntity<Product> update(@RequestBody Product product, @PathVariable("id") Long id) {
         Product updateProduct = productService.update(id,product);
         return ResponseEntity.accepted().body(updateProduct);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Product>> getAll() {
+        return ResponseEntity.ok(productService.getAll());
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Product> get(@PathVariable Long id) {
+        Product product = productService.get(id);
+        if (product == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(productService.get(id));
     }
 }

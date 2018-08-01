@@ -23,4 +23,10 @@ public class ProductController {
         Product newProduct = productService.create(product);
         return ResponseEntity.created(URI.create("/products" + newProduct.getId())).body(newProduct);
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity remove(@PathVariable Long id) {
+        productService.remove(id);
+        return ResponseEntity.noContent().build();
+    }
 }

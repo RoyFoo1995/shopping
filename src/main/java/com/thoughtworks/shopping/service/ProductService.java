@@ -23,4 +23,10 @@ public class ProductService {
     public void remove(Long id) {
         productRepository.deleteById(id);
     }
+
+    public Product update(Long id, Product product) {
+        return productRepository.existsById(id)?
+                productRepository.save(product):
+                null;
+    }
 }

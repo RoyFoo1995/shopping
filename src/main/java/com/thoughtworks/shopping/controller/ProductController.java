@@ -29,4 +29,10 @@ public class ProductController {
         productService.remove(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Product> update(@RequestBody Product product, @PathVariable("id") Long id) {
+        Product updateProduct = productService.update(id,product);
+        return ResponseEntity.accepted().body(updateProduct);
+    }
 }

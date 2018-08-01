@@ -2,6 +2,7 @@ package com.thoughtworks.shopping.controller;
 
 import com.thoughtworks.shopping.entity.Product;
 import com.thoughtworks.shopping.service.ProductService;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,13 +34,21 @@ public class ProductController {
 
     @PutMapping("{id}")
     public ResponseEntity<Product> update(@RequestBody Product product, @PathVariable("id") Long id) {
-        Product updateProduct = productService.update(id,product);
+        Product updateProduct = productService.update(id, product);
         return ResponseEntity.accepted().body(updateProduct);
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAll() {
-        return ResponseEntity.ok(productService.getAll());
+    public ResponseEntity<List<Product>> getAll(
+            @RequestParam(value = "order", defaultValue = "ASC") String order,
+            @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
+            @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
+            @RequestParam(value = "maxPrice", defaultValue = "0") int maxPrice,
+            @RequestParam(value = "minPrice", defaultValue = "0") int minPrice,
+            @RequestParam(value = "category", defaultValue = "") String category) {
+        List<Product> filterProducts = productService.getAll(order,pageSize,pageNum,
+                maxPrice,minPrice,category);
+        return ResponseEntity.ok(filterProducts);
     }
 
     @GetMapping("{id}")
@@ -50,4 +59,6 @@ public class ProductController {
         }
         return ResponseEntity.ok(productService.get(id));
     }
+
+
 }

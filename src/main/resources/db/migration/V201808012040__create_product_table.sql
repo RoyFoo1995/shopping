@@ -3,6 +3,8 @@ CREATE TABLE `product` (
   `Name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `Price` int(11) NOT NULL,
   `Category` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Barcode` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Unit` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Brand` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `product_date` datetime,

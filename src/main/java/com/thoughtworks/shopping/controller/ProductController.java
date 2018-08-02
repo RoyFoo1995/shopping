@@ -2,7 +2,6 @@ package com.thoughtworks.shopping.controller;
 
 import com.thoughtworks.shopping.entity.Product;
 import com.thoughtworks.shopping.service.ProductService;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +45,8 @@ public class ProductController {
             @RequestParam(value = "maxPrice", defaultValue = "0") int maxPrice,
             @RequestParam(value = "minPrice", defaultValue = "0") int minPrice,
             @RequestParam(value = "category", defaultValue = "") String category) {
-        List<Product> filterProducts = productService.getAll(order,pageSize,pageNum,
-                maxPrice,minPrice,category);
+        List<Product> filterProducts = productService.getAll(order, pageSize, pageNum,
+                maxPrice, minPrice, category);
         return ResponseEntity.ok(filterProducts);
     }
 

@@ -1,7 +1,7 @@
 package com.thoughtworks.shopping.service;
 
 import com.thoughtworks.shopping.entity.Order;
-import com.thoughtworks.shopping.entity.OrderRequest;
+import com.thoughtworks.shopping.viewobject.OrderItemRequest;
 import com.thoughtworks.shopping.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +23,12 @@ public class OrderService {
     }
 
 
-    public Long create(List<OrderRequest> orderRequests, Long userId) {
+    public Long create(List<OrderItemRequest> orderItemRequests, Long userId) {
         Order order = new Order();
         order.setCreateDate(new Date());
         order.setUserId(userId);
         Long orderId = orderRepository.save(order).getId();
-        orderRequests.forEach(orderRequest -> orderItemService.create(orderRequest, orderId));
+        orderItemRequests.forEach(orderItemRequest -> orderItemService.create(orderItemRequest, orderId));
         return orderId;
     }
 

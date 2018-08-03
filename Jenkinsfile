@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'grable --build'
+                echo('test success')
             }
         }
     }

@@ -4,7 +4,15 @@ import com.thoughtworks.shopping.entity.Product;
 import com.thoughtworks.shopping.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.List;
@@ -37,6 +45,7 @@ public class ProductController {
         return ResponseEntity.accepted().body(updateProduct);
     }
 
+    //CHECKSTYLE.OFF: IllegalCatch Much more readable than catching 7 exceptions
     @GetMapping
     public ResponseEntity<List<Product>> getAll(
             @RequestParam(value = "order", defaultValue = "ASC") String order,
@@ -49,15 +58,12 @@ public class ProductController {
                 maxPrice, minPrice, category);
         return ResponseEntity.ok(filterProducts);
     }
+    //CHECKSTYLE.ON: IllegalCatch
 
     @GetMapping("{id}")
     public ResponseEntity<Product> get(@PathVariable Long id) {
         Product product = productService.get(id);
-        if (product == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(productService.get(id));
+        return product == null ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(productService.get(id));
     }
-
-
 }

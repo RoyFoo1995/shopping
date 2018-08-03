@@ -32,8 +32,7 @@ public class ProductService {
     public Product update(Long id, Product product) {
         product.setId(id);
         return productRepository.existsById(id) ?
-                productRepository.save(product) :
-                null;
+                productRepository.save(product) : null;
     }
 
     public List<Product> getAll(String order, int pageSize, int pageNum, int maxPrice, int minPrice, String category) {

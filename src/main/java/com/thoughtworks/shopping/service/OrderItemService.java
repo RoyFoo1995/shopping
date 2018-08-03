@@ -1,9 +1,8 @@
 package com.thoughtworks.shopping.service;
 
-import com.thoughtworks.shopping.controller.OrderController;
 import com.thoughtworks.shopping.entity.Order;
 import com.thoughtworks.shopping.entity.OrderItem;
-import com.thoughtworks.shopping.entity.OrderRequest;
+import com.thoughtworks.shopping.viewobject.OrderItemRequest;
 import com.thoughtworks.shopping.repository.OrderItemRepository;
 import com.thoughtworks.shopping.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +24,31 @@ public class OrderItemService {
         this.orderRepository = orderRepository;
     }
 
-    public void create(OrderRequest orderRequest, Long orderId) {
+    public void create(OrderItemRequest orderItemRequest, Long orderId) {
         OrderItem orderItem = new OrderItem();
         orderItem.setOrderId(orderId);
-        orderItem.setCount(orderRequest.getCount());
-        orderItem.setProduct(productService.get(orderRequest.getProductId()));
+        orderItem.setCount(orderItemRequest.getCount());
+        orderItem.setProduct(productService.get(orderItemRequest.getProductId()));
         orderItemRepository.save(orderItem);
     }
 
-    public boolean update(Long orderId, OrderRequest orderRequest) {
+    public boolean update(Long orderId, OrderItemRequest orderItemRequest) {
         Order order = orderRepository.findById(orderId).orElse(null);
         if (order == null) {
             return false;
         }
         AtomicBoolean noOrderItem = new AtomicBoolean(true);
+        updateOrderItem(orderItemRequest, order, noOrderItem);
+        if (noOrderItem.get() && orderItemRequest.getCount() > 0) {
+            this.create(orderItemRequest, orderId);
+        }
+        return true;
+    }
+
+    private void updateOrderItem(OrderItemRequest orderItemRequest, Order order, AtomicBoolean noOrderItem) {
         order.getOrderItems().forEach(orderItem -> {
-            if (orderItem.getProduct().getId().equals(orderRequest.getProductId())) {
-                int count = orderItem.getCount() + orderRequest.getCount();
+            if (orderItem.getProduct().getId().equals(orderItemRequest.getProductId())) {
+                int count = orderItem.getCount() + orderItemRequest.getCount();
                 orderItem.setCount(count);
                 orderItemRepository.save(orderItem);
                 noOrderItem.set(false);
@@ -50,11 +57,6 @@ public class OrderItemService {
                 }
             }
         });
-
-        if (noOrderItem.get() && orderRequest.getCount() > 0) {
-            this.create(orderRequest, orderId);
-        }
-        return true;
     }
 
     private void remove(Long orderItemId) {

@@ -1,6 +1,6 @@
-package com.thoughtworks.shopping.entity;
+package com.thoughtworks.shopping.viewobject;
 
-public class OrderRequest {
+public class OrderItemRequest {
     private int count;
     private Long productId;
 

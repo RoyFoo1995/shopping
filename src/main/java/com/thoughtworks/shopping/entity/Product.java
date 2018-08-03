@@ -1,5 +1,6 @@
 package com.thoughtworks.shopping.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,8 +19,10 @@ public class Product {
     private String category;
     private String brand;
     private String description;
-    private Date product_date;
-    private String product_place;
+    @Column(name = "productDate")
+    private Date productDate;
+    @Column(name = "product_place")
+    private String productPlace;
 
 
     public String getBarcode() {
@@ -86,19 +89,19 @@ public class Product {
         this.description = description;
     }
 
-    public Date getProduct_date() {
-        return product_date;
+    public Date getProductDate() {
+        return productDate;
     }
 
-    public void setProduct_date(Date product_date) {
-        this.product_date = product_date;
+    public void setProductDate(Date productDate) {
+        this.productDate = productDate;
     }
 
-    public String getProduct_place() {
-        return product_place;
+    public String getProductPlace() {
+        return productPlace;
     }
 
-    public void setProduct_place(String product_place) {
-        this.product_place = product_place;
+    public void setProductPlace(String productPlace) {
+        this.productPlace = productPlace;
     }
 }

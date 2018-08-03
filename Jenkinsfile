@@ -6,5 +6,10 @@ pipeline {
                 echo('test success')
             }
         }
+        stage('QA') {
+            steps {
+                echo('QA success')
+            }
+        }
     }
 }

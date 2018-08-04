@@ -1,6 +1,7 @@
 package com.thoughtworks.shopping.service;
 
 import com.thoughtworks.shopping.entity.Product;
+import com.thoughtworks.shopping.exception.ProductNotFoundException;
 import com.thoughtworks.shopping.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -52,7 +53,7 @@ public class ProductService {
         return productList;
     }
 
-    public Product get(Long id) {
-        return productRepository.findById(id).orElse(null);
+    public Product get(Long id) throws RuntimeException {
+        return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
     }
 }
